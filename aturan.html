@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Info Kelas I SDIT Ar-Rahmah Sulawesi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky:#2E86C1; --sky-deep:#1B4F72; --sky-pale:#EAF4FC;
+    --gold:#C9972F; --gold-pale:#FFF6E0;
+    --indigo:#3B5BA5;
+    --white:#FFFFFF; --ink:#1E2A33; --ink-soft:#6B7A84; --line:#E7EEF3;
+    --shadow:0 10px 26px rgba(27,79,114,0.10);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:'Plus Jakarta Sans',sans-serif; color:var(--ink); background:var(--sky-pale); padding-bottom:88px;}
+  h1,h2{font-family:'Fraunces',serif;}
+  a{text-decoration:none; color:inherit;}
+
+  .hero{
+    background:linear-gradient(150deg, #4E70C2, #253D75);
+    background-image:radial-gradient(rgba(255,255,255,0.14) 1.6px, transparent 1.6px), linear-gradient(150deg, #4E70C2, #253D75);
+    background-size:14px 14px, auto;
+    padding:22px 20px 30px; border-radius:0 0 26px 26px; color:var(--white); position:relative; overflow:hidden;
+  }
+  .hero-illust{position:absolute; top:-14px; right:-10px; width:96px; opacity:0.9; z-index:1;}
+  .back-btn{display:inline-flex; align-items:center; gap:5px; font-size:12.5px; font-weight:600; color:rgba(255,255,255,0.9); margin-bottom:10px; position:relative; z-index:2;}
+  .hero-title{font-size:21px; font-weight:600; margin:0 0 4px; position:relative; z-index:2; max-width:75%;}
+  .hero-sub{font-size:12.5px; opacity:0.85; position:relative; z-index:2;}
+
+  .wrap{max-width:720px; margin:0 auto; padding:20px 16px 0;}
+
+  .aturan-group{margin-bottom:10px; border:1px solid var(--line); border-radius:16px; overflow:hidden; background:var(--white); box-shadow:var(--shadow);}
+  .aturan-head{
+    width:100%; text-align:left; background:var(--white); border:none; padding:15px 16px;
+    display:flex; justify-content:space-between; align-items:center; font-weight:700; font-size:13.5px; color:var(--sky-deep); cursor:pointer;
+  }
+  .aturan-head .chev{transition:transform .2s ease; color:var(--gold);}
+  .aturan-head.open .chev{transform:rotate(180deg);}
+  .aturan-body{max-height:0; overflow:hidden; transition:max-height .25s ease; background:var(--sky-pale);}
+  .aturan-body ul{margin:0; padding:14px 16px 14px 30px; font-size:13px; color:var(--ink); line-height:1.75;}
+
+  .empty-note, .error-box, .loading{text-align:center; padding:40px 20px; color:var(--ink-soft); background:var(--white); border-radius:14px; border:1px dashed var(--line);}
+  .error-box{color:#B23A3A; border-style:solid; border-color:#F3C9C9;}
+  .spinner{width:26px; height:26px; border:3px solid var(--sky-pale); border-top-color:var(--sky); border-radius:50%; animation:spin .7s linear infinite; margin:0 auto 12px;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  .tabbar{
+    position:fixed; bottom:0; left:0; right:0; z-index:40; background:var(--white); border-top:1px solid var(--line);
+    display:flex; justify-content:space-around; padding:8px 6px calc(8px + env(safe-area-inset-bottom));
+    box-shadow:0 -6px 20px rgba(27,79,114,0.06);
+  }
+  .tab-item{display:flex; flex-direction:column; align-items:center; gap:2px; color:var(--ink-soft); font-size:10.5px; font-weight:600; padding:5px 10px; border-radius:12px;}
+  .tab-item .t-icon{font-size:19px;}
+  .tab-item.active{color:var(--sky-deep); background:var(--sky-pale);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <svg class="hero-illust" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M20 34c14-8 26-8 38 0v58c-12-8-24-8-38 0z" fill="rgba(255,255,255,0.20)"/>
+    <path d="M96 34c-14-8-26-8-38 0v58c12-8 24-8 38 0z" fill="rgba(255,255,255,0.30)"/>
+    <circle cx="90" cy="26" r="5" fill="#FFF3D9"/>
+  </svg>
+  <div class="wrap" style="padding-top:0;">
+    <a class="back-btn" href="index.html">← Beranda</a>
+    <div class="hero-title">Info Kelas</div>
+    <div class="hero-sub">Yang perlu Ayah &amp; Bunda ketahui</div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div id="aturanList"><div class="loading"><div class="spinner"></div>Memuat info…</div></div>
+</div>
+
+<nav class="tabbar">
+  <a class="tab-item" href="index.html"><span class="t-icon">🏠</span>Beranda</a>
+  <a class="tab-item" href="kalender.html"><span class="t-icon">📅</span>Kalender</a>
+  <a class="tab-item" href="budaya.html"><span class="t-icon">📚</span>Budaya</a>
+  <a class="tab-item" href="galeri.html"><span class="t-icon">🖼️</span>Galeri</a>
+  <div class="tab-item active"><span class="t-icon">📋</span>Info</div>
+</nav>
+
+<script>
+const API_URL = 'https://script.google.com/macros/s/AKfycbyo2Ul2rLY-ZrdFABuKurp8MuHg3KKgbZy4wULzleiKMDURvKJHi2prg-4tNne9MN-0oQ/exec'; // ganti setelah deploy Apps Script
+
+async function muatAturan(){
+  try{
+    const res = await fetch(API_URL);
+    const data = await res.json();
+    if (data.status !== 'ok') throw new Error(data.message || 'Gagal memuat data.');
+    renderAturan(data.aturan || []);
+  }catch(err){
+    document.getElementById('aturanList').innerHTML = `<div class="error-box">Gagal memuat aturan: ${err.message}</div>`;
+  }
+}
+
+function renderAturan(list){
+  const grouped = {};
+  list.forEach(a => {
+    const kat = a.Kategori || 'Umum';
+    if (!grouped[kat]) grouped[kat] = [];
+    grouped[kat].push(a.Isi);
+  });
+  const kategoris = Object.keys(grouped);
+  const el = document.getElementById('aturanList');
+
+  if (!kategoris.length){ el.innerHTML = `<div class="empty-note">Aturan sekolah belum tersedia.</div>`; return; }
+
+  el.innerHTML = kategoris.map((kat, i) => `
+    <div class="aturan-group">
+      <button class="aturan-head" data-idx="${i}">${escapeHtml(kat)} <span class="chev">▾</span></button>
+      <div class="aturan-body" id="aturanBody${i}">
+        <ul>${grouped[kat].map(isi => `<li>${escapeHtml(isi)}</li>`).join('')}</ul>
+      </div>
+    </div>
+  `).join('');
+
+  el.querySelectorAll('.aturan-head').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const bodyEl = document.getElementById(`aturanBody${btn.dataset.idx}`);
+      const isOpen = btn.classList.contains('open');
+      btn.classList.toggle('open', !isOpen);
+      bodyEl.style.maxHeight = isOpen ? '0px' : bodyEl.scrollHeight + 'px';
+    });
+  });
+}
+
+function escapeHtml(str){
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+
+muatAturan();
+</script>
+</body>
+</html>
