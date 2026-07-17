@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Buku Budaya Siswa — SDIT Ar-Rahmah Makassar</title>
 <style>
 /* ── DESIGN TOKENS ── */
 :root {
@@ -530,7 +524,6 @@ body {
   .nav-btn { padding: 11px 10px; font-size: 11.5px; }
 }
 </style>
-</head>
 <style>
   .shell-backbar{
     position:sticky; top:0; z-index:210; background:rgba(0,120,180,0.92); backdrop-filter:blur(6px);
@@ -539,21 +532,11 @@ body {
   .shell-backbar a{
     color:#fff; font-size:12.5px; font-weight:600; text-decoration:none; display:inline-flex; align-items:center; gap:5px;
   }
-  .tabbar{
-    position:fixed; bottom:0; left:0; right:0; z-index:200; background:var(--white); border-top:1px solid var(--gray-line);
-    display:flex; justify-content:space-around; padding:8px 6px calc(8px + env(safe-area-inset-bottom));
-    box-shadow:0 -6px 20px rgba(0,120,180,0.08);
-  }
-  .tab-item{display:flex; flex-direction:column; align-items:center; gap:2px; color:var(--ink-light); font-size:10.5px; font-weight:600; padding:5px 10px; border-radius:12px; text-decoration:none;}
-  .tab-item .t-icon{font-size:19px;}
-  .tab-item.active{color:var(--blue-dark); background:var(--blue-light);}
   body{padding-bottom:88px;}
   .fab{bottom:76px;}
 </style>
-</head>
-<body>
 
-<div class="shell-backbar"><a href="index.html">← Beranda</a></div>
+<div class="shell-backbar"><a href="#/beranda">← Beranda</a></div>
 
 <!-- ══════════ COVER ══════════ -->
 <div class="cover">
@@ -1331,16 +1314,7 @@ body {
 <!-- FAB -->
 <button class="fab" id="fab" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
-<nav class="tabbar">
-  <a class="tab-item" href="index.html"><span class="t-icon">🏠</span>Beranda</a>
-  <a class="tab-item" href="kalender.html"><span class="t-icon">📅</span>Kalender</a>
-  <div class="tab-item active"><span class="t-icon">📚</span>Budaya</div>
-  <a class="tab-item" href="galeri.html"><span class="t-icon">🖼️</span>Galeri</a>
-  <a class="tab-item" href="aturan.html"><span class="t-icon">📋</span>Aturan</a>
-  <a class="tab-item" href="buku-saku.html"><span class="t-icon">📖</span>Panduan</a>
-</nav>
-
-<script>
+<script data-page-script>
 // ── NAVIGATION ──
 function showSection(name) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -1359,9 +1333,9 @@ function toggleAccordion(btn) {
 }
 
 // ── FAB ──
-window.addEventListener('scroll', () => {
-  document.getElementById('fab').classList.toggle('show', window.scrollY > 400);
+window.addEventListener('scroll', function _fabScroll(){
+  var fab = document.getElementById('fab');
+  if(!fab){ window.removeEventListener('scroll', _fabScroll); return; }
+  fab.classList.toggle('show', window.scrollY > 400);
 });
 </script>
-</body>
-</html>
