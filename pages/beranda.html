@@ -1,327 +1,612 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Portal Kelas VI - SDIT Ar-Rahmah</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --sky:#2E86C1; --sky-deep:#1B4F72; --sky-pale:#EAF4FC;
-    --gold:#C9972F; --gold-pale:#FFF6E0;
-    --coral:#E2703A; --coral-pale:#FDECE3;
-    --indigo:#3B5BA5; --indigo-pale:#EAEDF9;
-    --white:#FFFFFF; --ink:#1E2A33; --ink-soft:#6B7A84; --line:#E7EEF3;
-    --shadow:0 10px 26px rgba(27,79,114,0.10);
+  .ar-page{
+    --primary:#4DB8FF; --primary-soft:#E8F6FF; --primary-deep:#1A8FE0;
+    --accent:#FFB347; --accent-soft:#FFF3E0; --accent-deep:#E08E12;
+    --bg:#F0F7FF; --card:#FFFFFF; --ink:#1A1A2E; --ink-soft:#8B8FA3; --ink-muted:#C5C8D4;
+    --shadow:0 4px 20px rgba(77,184,255,.12); --shadow-lg:0 8px 32px rgba(77,184,255,.18);
+    font-family:'Plus Jakarta Sans',sans-serif; color:var(--ink); background:var(--bg); padding-bottom:90px;
   }
-  *{box-sizing:border-box;}
-  body{
-    margin:0; font-family:'Plus Jakarta Sans',sans-serif; color:var(--ink);
-    background:var(--sky-pale); padding-bottom:88px; -webkit-font-smoothing:antialiased;
-  }
-  h1,h2,.display{font-family:'Fraunces',serif;}
-  img{max-width:100%;display:block;}
-  a{text-decoration:none;color:inherit;}
+  .ar-page *,.ar-page *::before,.ar-page *::after{box-sizing:border-box;margin:0;padding:0}
+  .ar-page a{text-decoration:none;color:inherit}
+  .ar-header{background:var(--card);padding:16px 20px 12px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.04)}
+  .ar-header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .ar-greeting{font-size:13px;color:var(--ink-soft)}
+  .ar-greeting strong{display:block;font-family:'Fraunces',serif;font-size:20px;font-weight:700;color:var(--ink);margin-top:2px}
+  .ar-avatar{width:44px;height:44px;border-radius:14px;object-fit:cover;border:2px solid var(--primary-soft);background:var(--primary-soft)}
+  .ar-search-wrap{position:relative}
+  .ar-search{width:100%;height:44px;border-radius:14px;border:none;background:var(--bg);padding:0 44px 0 16px;font-size:13px;color:var(--ink);outline:none;font-family:'Plus Jakarta Sans',sans-serif}
+  .ar-search::placeholder{color:var(--ink-muted)}
+  .ar-search-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--ink-muted)}
+  .ar-hero{margin:16px 20px 0;border-radius:24px;background:linear-gradient(135deg,var(--primary) 0%,var(--primary-deep) 100%);padding:24px 20px;color:var(--white);position:relative;overflow:hidden;box-shadow:var(--shadow-lg)}
+  .ar-hero::before{content:'';position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.12)}
+  .ar-hero::after{content:'';position:absolute;left:-20px;bottom:-40px;width:100px;height:100px;border-radius:50%;background:rgba(255,179,71,.2)}
+  .ar-hero-inner{position:relative;z-index:1;display:flex;align-items:center;gap:16px}
+  .ar-hero-text{flex:1}
+  .ar-hero-eyebrow{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,255,255,.2);padding:3px 10px;border-radius:999px;margin-bottom:10px}
+  .ar-hero h1{font-family:'Fraunces',serif;font-size:20px;font-weight:700;line-height:1.3;margin-bottom:8px}
+  .ar-hero p{font-size:12.5px;line-height:1.55;opacity:.92}
+  .ar-hero-img{width:100px;height:100px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 6px 12px rgba(0,0,0,.15))}
+  .ar-sec-head{padding:0 20px;display:flex;align-items:baseline;justify-content:space-between;margin:24px 0 14px}
+  .ar-sec-head h2{font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:var(--ink)}
+  .ar-sec-head a{font-size:12px;font-weight:700;color:var(--primary-deep)}
+  .ar-pills{display:flex;gap:10px;overflow-x:auto;padding:4px 20px 8px;scrollbar-width:none}
+  .ar-pills::-webkit-scrollbar{display:none}
+  .ar-pill{flex:0 0 auto;display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:999px;font-size:12px;font-weight:700;background:var(--card);color:var(--ink-soft);box-shadow:0 2px 8px rgba(0,0,0,.05);transition:all .15s ease;cursor:pointer;border:none;font-family:'Plus Jakarta Sans',sans-serif}
+  .ar-pill.active{background:var(--primary);color:var(--white)}
+  .ar-pill:active{transform:scale(.96)}
+  .ar-pill-ico{width:18px;height:18px;border-radius:6px;display:flex;align-items:center;justify-content:center}
+  .ar-banner{display:block;margin:16px 20px 0;border-radius:20px;background:linear-gradient(120deg,var(--accent),var(--accent-deep));padding:20px;color:var(--white);position:relative;overflow:hidden;box-shadow:0 6px 20px rgba(255,179,71,.25)}
+  .ar-banner::before{content:'';position:absolute;right:-20px;bottom:-30px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,.1)}
+  .ar-banner-inner{position:relative;z-index:1;display:flex;align-items:center;gap:14px}
+  .ar-banner-img{width:80px;height:80px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 4px 8px rgba(0,0,0,.1))}
+  .ar-banner-text{flex:1}
+  .ar-banner h3{font-family:'Fraunces',serif;font-size:16px;font-weight:700;margin-bottom:4px}
+  .ar-banner p{font-size:11.5px;opacity:.92;line-height:1.5;margin-bottom:10px}
+  .ar-banner-btn{display:inline-block;background:var(--white);color:var(--accent-deep);font-weight:800;font-size:12px;padding:7px 16px;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+  .ar-hscroll{display:flex;gap:14px;overflow-x:auto;padding:4px 20px 12px;scroll-snap-type:x mandatory;scrollbar-width:none}
+  .ar-hscroll::-webkit-scrollbar{display:none}
+  .ar-hcard{flex:0 0 260px;scroll-snap-align:start;background:var(--card);border-radius:20px;padding:18px;box-shadow:var(--shadow);cursor:pointer;transition:transform .15s ease;position:relative;overflow:hidden}
+  .ar-hcard:active{transform:scale(.97)}
+  .ar-hcard::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:20px 20px 0 0}
+  .ar-hcard-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .ar-hcard-foto{width:50px;height:50px;border-radius:14px;object-fit:cover;background:var(--primary-soft);border:2px solid var(--primary-soft);flex-shrink:0}
+  .ar-hcard-foto-fallback{width:50px;height:50px;border-radius:14px;flex-shrink:0;background:var(--primary-soft);border:2px solid var(--primary-soft);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:700;color:var(--primary-deep);font-size:18px}
+  .ar-hcard-nama{font-size:14px;font-weight:700;color:var(--ink)}
+  .ar-hcard-rombel{display:inline-block;font-size:10px;font-weight:700;color:var(--primary-deep);background:var(--primary-soft);padding:2px 10px;border-radius:999px;margin-top:3px}
+  .ar-hcard-pesan{font-size:12.5px;color:var(--ink-soft);line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .ar-vlist{padding:0 20px;display:flex;flex-direction:column;gap:12px}
+  .ar-vcard{background:var(--card);border-radius:20px;padding:16px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  .ar-vcard.prioritas::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,var(--accent),var(--accent-deep))}
+  .ar-vcard-head{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+  .ar-vcard-judul{font-size:14px;font-weight:700;color:var(--ink);flex:1;min-width:120px}
+  .ar-vcard-badge{font-size:9px;font-weight:800;color:var(--white);background:linear-gradient(135deg,var(--accent),var(--accent-deep));padding:3px 10px;border-radius:999px;text-transform:uppercase;letter-spacing:.04em}
+  .ar-vcard-isi{font-size:12.5px;color:var(--ink-soft);line-height:1.6;margin-bottom:8px}
+  .ar-vcard-meta{font-size:11px;color:var(--ink-muted);font-weight:600}
+  .ar-menu{padding:0 20px;display:flex;flex-direction:column;gap:12px}
+  .ar-menu-item{display:flex;align-items:center;gap:14px;background:var(--card);border-radius:18px;padding:14px 16px;box-shadow:var(--shadow);transition:transform .15s ease;position:relative}
+  .ar-menu-item:active{transform:scale(.98)}
+  .ar-menu-ico{width:48px;height:48px;border-radius:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+  .ar-menu-ico svg{width:22px;height:22px}
+  .ar-menu-text{flex:1;min-width:0}
+  .ar-menu-judul{font-size:14px;font-weight:700;color:var(--ink)}
+  .ar-menu-sub{font-size:12px;color:var(--ink-soft);margin-top:2px}
+  .ar-menu-arrow{color:var(--ink-muted);flex-shrink:0}
+  .ar-menu-badge{position:absolute;top:-5px;right:14px;background:var(--accent);color:var(--white);font-size:10px;font-weight:800;padding:2px 10px;border-radius:999px;box-shadow:0 2px 8px rgba(255,179,71,.4)}
+  .ar-kp-list{padding:0 20px;display:flex;flex-direction:column;gap:12px}
+  .ar-kp-card{display:flex;align-items:center;gap:14px;background:var(--card);border-radius:20px;padding:14px 16px;box-shadow:var(--shadow);transition:transform .15s ease}
+  .ar-kp-card:active{transform:scale(.98)}
+  .ar-kp-avatar{width:52px;height:52px;border-radius:16px;flex-shrink:0;background:var(--primary-soft);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:700;color:var(--primary-deep);font-size:20px;border:2px solid var(--primary-soft);object-fit:cover}
+  .ar-kp-info{flex:1;min-width:0}
+  .ar-kp-nama{font-size:14px;font-weight:700;color:var(--ink)}
+  .ar-kp-jabatan{font-size:12px;color:var(--ink-soft);margin-top:1px}
+  .ar-kp-wa{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--primary-deep);background:var(--primary-soft);padding:5px 12px;border-radius:999px;margin-top:6px;cursor:pointer;transition:background .15s}
+  .ar-kp-wa:hover{background:#d0eeff}
+  .ar-kp-wa svg{width:14px;height:14px}
+  .ar-rek-list{padding:0 20px;display:flex;flex-direction:column;gap:12px}
+  .ar-rek-card{display:flex;align-items:center;gap:14px;background:var(--card);border-radius:20px;padding:16px;box-shadow:var(--shadow);transition:transform .15s ease}
+  .ar-rek-card:active{transform:scale(.98)}
+  .ar-rek-logo{width:56px;height:56px;border-radius:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;text-align:center;line-height:1.1}
+  .ar-rek-logo.bsi{background:#e0f7fa;color:#00838f}
+  .ar-rek-logo.mandiri{background:#e3f2fd;color:#1565c0}
+  .ar-rek-logo.maybank{background:#fff3e0;color:#ef6c00}
+  .ar-rek-info{flex:1;min-width:0}
+  .ar-rek-nomor{font-family:'Fraunces',serif;font-size:17px;font-weight:700;color:var(--ink);letter-spacing:1px}
+  .ar-rek-an{font-size:12px;color:var(--ink-soft);margin-top:2px}
+  .ar-rek-copy{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;color:var(--white);background:var(--accent);padding:6px 14px;border-radius:999px;margin-top:8px;cursor:pointer;border:none;transition:background .15s}
+  .ar-rek-copy:hover{background:var(--accent-deep)}
+  .ar-rek-copy svg{width:12px;height:12px}
+  .ar-footer{margin-top:28px;padding:24px 20px;text-align:center;font-size:12px;color:var(--ink-soft);background:var(--card);border-radius:24px 24px 0 0;box-shadow:0 -4px 20px rgba(0,0,0,.04)}
+  .ar-footer a{color:var(--primary-deep);font-weight:700}
+  .ar-footer-divider{width:40px;height:4px;border-radius:999px;background:var(--ink-muted);margin:0 auto 16px;opacity:.4}
+  .ar-bnav{position:fixed;bottom:0;left:0;right:0;background:var(--card);padding:8px 0 20px;box-shadow:0 -4px 24px rgba(0,0,0,.08);display:flex;justify-content:space-around;align-items:center;z-index:200;border-radius:24px 24px 0 0}
+  .ar-bnav-item{display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 12px;border-radius:12px;transition:all .15s;color:var(--ink-muted);font-size:10px;font-weight:700}
+  .ar-bnav-item.active{color:var(--primary);background:var(--primary-soft)}
+  .ar-bnav-item svg{width:22px;height:22px}
+  .ar-modal{display:none;position:fixed;inset:0;z-index:300;align-items:flex-end;justify-content:center}
+  .ar-modal.show{display:flex}
+  .ar-modal-overlay{position:absolute;inset:0;background:rgba(26,26,46,.5)}
+  .ar-modal-card{position:relative;background:var(--card);border-radius:28px 28px 0 0;width:100%;max-width:420px;padding:28px 24px 24px;box-shadow:0 -8px 40px rgba(0,0,0,.15);animation:ar-slideup .25s ease;max-height:75vh;overflow-y:auto}
+  @keyframes ar-slideup{from{transform:translateY(100%)}to{transform:none}}
+  .ar-modal-close{position:absolute;top:14px;right:14px;width:36px;height:36px;border:none;border-radius:12px;background:var(--bg);color:var(--ink-soft);font-size:18px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .ar-modal-foto{width:90px;height:90px;border-radius:20px;object-fit:cover;display:block;margin:0 auto 14px;border:3px solid var(--primary-soft);background:var(--primary-soft)}
+  .ar-modal-nama{font-family:'Fraunces',serif;font-size:20px;font-weight:700;color:var(--ink);text-align:center;margin-bottom:4px}
+  .ar-modal-rombel{display:block;width:fit-content;margin:0 auto 16px;font-size:11px;font-weight:700;color:var(--primary-deep);background:var(--primary-soft);padding:4px 14px;border-radius:999px}
+  .ar-modal-msg{font-size:14px;color:var(--ink);line-height:1.7;background:var(--bg);border-radius:16px;padding:16px;margin-bottom:10px;white-space:pre-line}
+  .ar-modal-date{font-size:11px;color:var(--ink-muted);text-align:center;font-weight:600}
+  .ar-toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--white);font-size:12px;font-weight:700;padding:10px 20px;border-radius:999px;box-shadow:0 4px 20px rgba(0,0,0,.2);opacity:0;pointer-events:none;transition:opacity .2s;z-index:400}
+  .ar-toast.show{opacity:1}
+  .ar-spinner{width:28px;height:28px;margin:0 auto 10px;border:3px solid var(--primary-soft);border-top-color:var(--primary);border-radius:50%;animation:ar-spin .8s linear infinite}
+  @keyframes ar-spin{to{transform:rotate(360deg)}}
+  .ar-state{padding:24px 20px;text-align:center;font-size:13px;color:var(--ink-soft)}
+  .ar-state-error{color:var(--accent-deep);font-weight:600}
+</style>
+<base target="_blank">
+</head>
+<body class="ar-page">
 
-  /* ---------- HEADER ---------- */
-  .hero{
-    background:linear-gradient(160deg, var(--sky-deep), var(--sky) 120%);
-    padding:28px 20px 44px;
-    border-radius:0 0 28px 28px;
-    color:var(--white);
-    position:relative;
-    overflow:hidden;
-  }
-  .hero::after{
-    content:''; position:absolute; width:160px; height:160px; background:var(--gold);
-    opacity:0.16; border-radius:50%; top:-60px; right:-40px;
-  }
-  .hero-illust{position:absolute; top:-8px; right:-10px; width:130px; z-index:1; opacity:0.95;}
-  .hero-star{position:absolute; z-index:1; opacity:0.85;}
-  .hero-eyebrow{font-size:12px; letter-spacing:0.14em; text-transform:uppercase; opacity:0.8; margin-bottom:6px; position:relative; z-index:2;}
-  .hero-title{font-size:24px; font-weight:600; margin:0 0 4px; position:relative; z-index:2; max-width:78%;}
-  .hero-sub{font-size:13px; opacity:0.85; position:relative; z-index:2; max-width:82%;}
+  <!-- ===== HEADER ===== -->
+  <header class="ar-header">
+    <div class="ar-header-top">
+      <div class="ar-greeting">
+        Assalamu'alaikum 👋
+        <strong>Ayah &amp; Bunda</strong>
+      </div>
+      <img class="ar-avatar" src="images/avatar-parent.webp" alt="Avatar" onerror="this.style.display='none';">
+    </div>
+    <div class="ar-search-wrap">
+      <input class="ar-search" type="text" placeholder="Cari info, jadwal, atau kontak..." id="searchInput">
+      <svg class="ar-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    </div>
+  </header>
 
-  .wrap{max-width:720px; margin:0 auto; padding:0 16px;}
+  <!-- ===== HERO ===== -->
+  <section class="ar-hero">
+    <div class="ar-hero-inner">
+      <div class="ar-hero-text">
+        <span class="ar-hero-eyebrow">SIT Ar-Rahmah Makassar</span>
+        <h1>Selamat Datang di Portal Kelas VI</h1>
+        <p>Mari bersama menumbuhkan ananda yang <strong>religius, cerdas, dan kolaboratif</strong>.</p>
+      </div>
+      <img class="ar-hero-img" src="images/illust-hero.webp" alt="Ilustrasi" onerror="this.style.display='none';">
+    </div>
+  </section>
 
-  /* ---------- WALI KELAS CAROUSEL ---------- */
-  .section{margin-top:26px;}
-  .section-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; padding:0 2px;}
-  .section-title{font-size:17px; color:var(--sky-deep); margin:0;}
-  .section-link{font-size:12px; font-weight:700; color:var(--sky);}
-
-  .wali-scroll{
-    display:flex; gap:12px; overflow-x:auto; padding:2px 2px 10px;
-    scroll-snap-type:x proximity;
-  }
-  .wali-scroll::-webkit-scrollbar{height:5px;}
-  .wali-scroll::-webkit-scrollbar-thumb{background:#C7DCEC; border-radius:10px;}
-  .wali-card{
-    scroll-snap-align:start;
-    min-width:210px; max-width:210px;
-    background:var(--white); border-radius:18px; padding:16px;
-    box-shadow:var(--shadow); flex-shrink:0; cursor:pointer;
-    border:1px solid var(--line);
-  }
-  .wali-top{display:flex; align-items:center; gap:10px; margin-bottom:10px;}
-  .wali-photo{
-    width:44px; height:44px; border-radius:50%; object-fit:cover;
-    border:2px solid var(--gold); background:var(--sky-pale); flex-shrink:0;
-  }
-  .wali-name{font-size:13.5px; font-weight:700; color:var(--ink); line-height:1.25;}
-  .wali-rombel{
-    display:inline-block; margin-top:2px; font-size:10.5px; font-weight:700;
-    color:var(--sky); background:var(--sky-pale); padding:1px 8px; border-radius:999px;
-  }
-  .wali-msg{
-    font-size:12.5px; color:var(--ink-soft); line-height:1.55;
-    display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
-  }
-
-  /* ---------- INFO KELAS ---------- */
-  .info-item{
-    background:var(--white); border:1px solid var(--line); border-radius:16px;
-    padding:15px 16px; margin-bottom:10px; display:flex; gap:12px;
-  }
-  .info-item.tinggi{border-color:var(--gold); background:var(--gold-pale);}
-  .info-dot{width:8px; height:8px; border-radius:50%; background:var(--sky); margin-top:6px; flex-shrink:0;}
-  .info-item.tinggi .info-dot{background:var(--gold);}
-  .info-top{display:flex; justify-content:space-between; gap:8px; align-items:baseline; margin-bottom:4px; flex-wrap:wrap;}
-  .info-judul{font-size:13.5px; font-weight:700;}
-  .info-meta{display:flex; gap:6px; align-items:center; flex-shrink:0;}
-  .info-rombel{font-size:10px; font-weight:700; color:var(--sky-deep); background:var(--sky-pale); padding:1px 7px; border-radius:999px;}
-  .info-tanggal{font-size:11px; color:var(--ink-soft); white-space:nowrap;}
-  .info-isi{font-size:13px; color:var(--ink-soft); line-height:1.6; margin:0;}
-  .empty-note{
-    color:var(--ink-soft); font-size:13px; padding:18px; background:var(--white);
-    border-radius:14px; text-align:center; border:1px dashed var(--line);
-  }
-
-  /* ---------- MENU CARDS (gaya app playful) ---------- */
-  .menu-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
-  .menu-card{
-    border-radius:20px; padding:18px 16px 16px; position:relative; overflow:hidden;
-    min-height:132px; display:flex; flex-direction:column; justify-content:flex-end;
-    box-shadow:var(--shadow);
-    background-image:radial-gradient(rgba(255,255,255,0.16) 1.6px, transparent 1.6px);
-    background-size:14px 14px;
-  }
-  .menu-card::before{
-    content:''; position:absolute; width:78px; height:78px; border-radius:50%;
-    background:rgba(255,255,255,0.14); top:-26px; left:-22px;
-  }
-  .menu-card .m-icon{font-size:28px; position:absolute; top:14px; right:14px; opacity:0.95; filter:drop-shadow(0 2px 3px rgba(0,0,0,0.12));}
-  .menu-card .m-title{font-family:'Fraunces',serif; font-size:16px; font-weight:600; color:var(--white); margin-bottom:2px; position:relative;}
-  .menu-card .m-sub{font-size:11px; color:rgba(255,255,255,0.88); position:relative;}
-  .menu-card .m-badge{
-    position:absolute; bottom:14px; right:14px;
-    background:rgba(255,255,255,0.25); color:var(--white); font-size:11px; font-weight:700;
-    padding:2px 9px; border-radius:999px; border:1px solid rgba(255,255,255,0.4);
-  }
-  .mc-kalender{background-color:var(--sky); background-image:radial-gradient(rgba(255,255,255,0.16) 1.6px, transparent 1.6px), linear-gradient(150deg, #3E9AD6, var(--sky-deep)); background-size:14px 14px, auto;}
-  .mc-budaya{background-color:var(--gold); background-image:radial-gradient(rgba(255,255,255,0.16) 1.6px, transparent 1.6px), linear-gradient(150deg, #E0B24E, #A6791F); background-size:14px 14px, auto;}
-  .mc-galeri{background-color:var(--coral); background-image:radial-gradient(rgba(255,255,255,0.16) 1.6px, transparent 1.6px), linear-gradient(150deg, #EC8256, #B84E24); background-size:14px 14px, auto;}
-  .mc-aturan{background-color:var(--indigo); background-image:radial-gradient(rgba(255,255,255,0.16) 1.6px, transparent 1.6px), linear-gradient(150deg, #4E70C2, #253D75); background-size:14px 14px, auto;}
-  .mc-panduan{background-color:var(--indigo); background-image:radial-gradient(rgba(255,255,255,0.16) 1.6px, transparent 1.6px), linear-gradient(150deg, var(--indigo), var(--sky-deep)); background-size:14px 14px, auto;}
-  .mc-pengaduan{background-color:#B23A3A; background-image:radial-gradient(rgba(255,255,255,0.16) 1.6px, transparent 1.6px), linear-gradient(150deg, #D2585A, #7A2626); background-size:14px 14px, auto;}
-  .mc-sava{background-color:var(--sky-deep); background-image:radial-gradient(rgba(255,255,255,0.16) 1.6px, transparent 1.6px), linear-gradient(150deg, #2E86C1, #12324A); background-size:14px 14px, auto;}
-
-  .loading, .error-box{text-align:center; padding:40px 20px; color:var(--ink-soft);}
-  .error-box{color:#B23A3A;}
-  .spinner{width:26px; height:26px; border:3px solid var(--sky-pale); border-top-color:var(--sky); border-radius:50%; animation:spin .7s linear infinite; margin:0 auto 12px;}
-  @keyframes spin{to{transform:rotate(360deg);}}
-
-  /* ---------- MODAL PESAN WALI KELAS ---------- */
-  #modal{
-    display:none; position:fixed; inset:0; background:rgba(15,25,32,0.55);
-    z-index:200; align-items:center; justify-content:center; padding:20px;
-  }
-  #modal.show{display:flex;}
-  .modal-card{
-    background:var(--white); border-radius:22px; padding:24px 22px 30px;
-    width:100%; max-width:480px; max-height:85vh; overflow-y:auto;
-  }
-  .modal-close{float:right; background:var(--sky-pale); border:none; width:30px; height:30px; border-radius:50%; font-size:16px; color:var(--sky-deep); cursor:pointer;}
-  .modal-top{display:flex; gap:12px; align-items:center; margin-bottom:14px;}
-  .modal-photo{width:54px; height:54px; border-radius:50%; object-fit:cover; border:2.5px solid var(--gold); background:var(--sky-pale);}
-  .modal-name{font-family:'Fraunces',serif; font-size:17px; font-weight:600; color:var(--sky-deep);}
-  .modal-msg{font-size:13.5px; line-height:1.7; color:var(--ink); white-space:pre-line;}
-  .modal-date{font-size:11px; color:var(--ink-soft); margin-top:14px;}
-
-  /* ---------- BOTTOM TAB BAR ---------- */
-  </style>
-
-<div class="hero">
-  <svg class="hero-illust" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <circle cx="98" cy="40" r="26" fill="#F6BE3E"/>
-    <g stroke="#F6BE3E" stroke-width="4" stroke-linecap="round">
-      <line x1="98" y1="0" x2="98" y2="7"/>
-      <line x1="130" y1="10" x2="125" y2="15"/>
-      <line x1="136" y1="40" x2="129" y2="40"/>
-    </g>
-    <ellipse cx="55" cy="85" rx="42" ry="18" fill="rgba(255,255,255,0.20)"/>
-    <ellipse cx="20" cy="70" rx="22" ry="12" fill="rgba(255,255,255,0.14)"/>
-  </svg>
-  <svg class="hero-star" style="top:18px; left:60%; width:14px;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 0l2.5 8.5L23 11l-8.5 2.5L12 22l-2.5-8.5L1 11l8.5-2.5z" fill="#FFF3D9"/></svg>
-  <svg class="hero-star" style="top:60px; left:72%; width:9px;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 0l2.5 8.5L23 11l-8.5 2.5L12 22l-2.5-8.5L1 11l8.5-2.5z" fill="#FFF3D9"/></svg>
-  <div class="wrap">
-    <div class="hero-eyebrow">Yayasan Ar-Rahmah Sulawesi</div>
-    <h1 class="hero-title">Assalamu'alaikum, Ayah &amp; Bunda 👋</h1>
-    <div class="hero-sub">Rumah digital Kelas VI — kabar kelas, kalender, dan kegiatan anak-anak.</div>
+  <!-- ===== PILLS ===== -->
+  <div class="ar-pills" aria-label="Akses cepat">
+    <button class="ar-pill active">
+      <span class="ar-pill-ico" style="background:rgba(255,255,255,.3);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+      </span>
+      Kalender
+    </button>
+    <a class="ar-pill" href="#/budaya">
+      <span class="ar-pill-ico" style="background:var(--accent-soft);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E08E12" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.2 4.6 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L4.8 8.3l5-.7z"/></svg>
+      </span>
+      Budaya
+    </a>
+    <a class="ar-pill" href="#/galeri">
+      <span class="ar-pill-ico" style="background:#FFE9DF;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF8A5C" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M4 18l5-5 3 3 4-4 4 4"/></svg>
+      </span>
+      Galeri
+    </a>
+    <a class="ar-pill" href="#/aturan">
+      <span class="ar-pill-ico" style="background:#E7ECFB;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5B7FE0" stroke-width="2.5" stroke-linecap="round"><path d="M12 3a6 6 0 0 0-4 10.5V17h8v-3.5A6 6 0 0 0 12 3z"/><path d="M9 20h6"/></svg>
+      </span>
+      Info
+    </a>
+    <a class="ar-pill" href="#/panduan">
+      <span class="ar-pill-ico" style="background:var(--primary-soft);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1A8FE0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19a2 2 0 0 1 2-2h13"/></svg>
+      </span>
+      Panduan
+    </a>
   </div>
-</div>
 
-<div class="wrap">
-
-  <section class="section">
-    <div class="section-head"><h2 class="section-title">Pesan Wali Kelas</h2></div>
-    <div class="wali-scroll" id="waliScroll">
-      <div class="loading"><div class="spinner"></div>Memuat…</div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="section-head"><h2 class="section-title">Info Kelas</h2></div>
-    <div id="infoList"><div class="loading"><div class="spinner"></div>Memuat…</div></div>
-  </section>
-
-  <section class="section">
-    <div class="section-head"><h2 class="section-title">Jelajah Kelas VI</h2></div>
-    <div class="menu-grid">
-      <a class="menu-card mc-kalender" href="#/kalender">
-        <span class="m-icon">📅</span>
-        <span class="m-title">Kalender<br>Akademik</span>
-        <span class="m-sub">Tahun Ajaran 2026/2027</span>
-      </a>
-      <a class="menu-card mc-budaya" href="#/budaya">
-        <span class="m-icon">📚</span>
-        <span class="m-title">Budaya &amp;<br>Pembiasaan</span>
-        <span class="m-sub">Buku Budaya Siswa</span>
-      </a>
-      <a class="menu-card mc-sava" href="https://sava.arrahmahmks.sch.id/walisd" target="_blank" rel="noopener noreferrer" style="grid-column:1 / -1;">
-        <span class="m-icon">🖥️</span>
-        <span class="m-title">SAVA — Sistem Aplikasi Virtual Ar-Rahmah</span>
-        <span class="m-sub">Portal akademik &amp; nilai untuk wali murid SD</span>
-      </a>
-      <a class="menu-card mc-galeri" href="#/galeri">
-        <span class="m-icon">🖼️</span>
-        <span class="m-title">Galeri<br>Kegiatan</span>
-        <span class="m-sub">Foto &amp; album</span>
-        <span class="m-badge" id="galeriBadge" style="display:none;"></span>
-      </a>
-      <a class="menu-card mc-aturan" href="#/aturan">
-        <span class="m-icon">📋</span>
-        <span class="m-title">Info<br>Kelas</span>
-        <span class="m-sub">Yang perlu diketahui</span>
-      </a>
-      <a class="menu-card mc-panduan" href="#/panduan" style="grid-column:1 / -1;">
-        <span class="m-icon">📖</span>
-        <span class="m-title">Buku Saku Mitra Orang Tua</span>
-        <span class="m-sub">Kode etik, adab komunikasi &amp; alur pengaduan</span>
-      </a>
-      <a class="menu-card mc-pengaduan" href="https://pengaduan.arrahmahsulawesi.org/" target="_blank" rel="noopener noreferrer" style="grid-column:1 / -1;">
-        <span class="m-icon">📢</span>
-        <span class="m-title">Portal Pengaduan</span>
-        <span class="m-sub">Sampaikan masukan, saran, atau keluhan Ayah &amp; Bunda</span>
-      </a>
-    </div>
-  </section>
-
-</div>
-
-<div id="modal">
-  <div class="modal-card">
-    <button class="modal-close" id="modalClose">&times;</button>
-    <div class="modal-top">
-      <img class="modal-photo" id="modalPhoto" src="" alt="">
-      <div>
-        <div class="modal-name" id="modalName"></div>
-        <span class="wali-rombel" id="modalRombel"></span>
+  <!-- ===== BANNER SAVA ===== -->
+  <a class="ar-banner" href="https://sava.arrahmahmks.sch.id/walisd" target="_blank" rel="noopener noreferrer">
+    <div class="ar-banner-inner">
+      <img class="ar-banner-img" src="images/illust-sava.webp" alt="SAVA" onerror="this.style.display='none';">
+      <div class="ar-banner-text">
+        <h3>Pantau Nilai di SAVA</h3>
+        <p>Lihat capaian belajar dan perkembangan ananda kapan saja.</p>
+        <span class="ar-banner-btn">Buka SAVA →</span>
       </div>
     </div>
-    <p class="modal-msg" id="modalMsg"></p>
-    <div class="modal-date" id="modalDate"></div>
-  </div>
-</div>
+  </a>
 
-<script data-page-script>
-var API_URL = 'https://script.google.com/macros/s/AKfycbzxpd7mmunr0ZJTB4lU_wF3eykejJTGfeAK4Q0mom2S7B7cLGPnR3q1GgLEK6SfxWLY/exec'; // ganti setelah deploy Apps Script
+  <!-- ===== PESAN WALI KELAS ===== -->
+  <section>
+    <div class="ar-sec-head">
+      <h2>Pesan Wali Kelas</h2>
+      <a href="#">Lihat Semua →</a>
+    </div>
+    <div class="ar-hscroll" id="waliScroll"></div>
+  </section>
 
-var WALI_DATA = [];
+  <!-- ===== INFO KELAS ===== -->
+  <section>
+    <div class="ar-sec-head">
+      <h2>Info Kelas</h2>
+      <a href="#">Terbaru</a>
+    </div>
+    <div class="ar-vlist" id="infoList"></div>
+  </section>
 
-async function muatBeranda(){
-  try{
-    const res = await fetch(API_URL);
-    const data = await res.json();
-    if (data.status !== 'ok') throw new Error(data.message || 'Gagal memuat data.');
-    WALI_DATA = data.waliKelas || [];
-    renderWali(WALI_DATA);
-    renderInfo(data.infoKelas || []);
-    renderBadge(data.galeriRingkas || []);
-  }catch(err){
-    document.getElementById('waliScroll').innerHTML = `<div class="error-box">Gagal memuat data: ${err.message}</div>`;
-    document.getElementById('infoList').innerHTML = '';
-  }
-}
+  <!-- ===== JELAJAH KELAS VI ===== -->
+  <section>
+    <div class="ar-sec-head">
+      <h2>Jelajah Kelas VI</h2>
+    </div>
+    <div class="ar-menu">
+      <a class="ar-menu-item" href="#/kalender">
+        <span class="ar-menu-ico" style="background:var(--primary-soft);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1A8FE0" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        </span>
+        <span class="ar-menu-text">
+          <span class="ar-menu-judul">Kalender Akademik</span>
+          <span class="ar-menu-sub">Agenda &amp; jadwal kegiatan semester</span>
+        </span>
+        <svg class="ar-menu-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
+      </a>
+      <a class="ar-menu-item" href="#/budaya">
+        <span class="ar-menu-ico" style="background:var(--accent-soft);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#E08E12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.2 4.6 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L4.8 8.3l5-.7z"/></svg>
+        </span>
+        <span class="ar-menu-text">
+          <span class="ar-menu-judul">Budaya &amp; Pembiasaan</span>
+          <span class="ar-menu-sub">Nilai &amp; rutinitas harian ananda</span>
+        </span>
+        <svg class="ar-menu-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
+      </a>
+      <a class="ar-menu-item" href="#/galeri">
+        <span id="galeriBadge" class="ar-menu-badge" style="display:none;"></span>
+        <span class="ar-menu-ico" style="background:#FFE9DF;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#FF8A5C" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M4 18l5-5 3 3 4-4 4 4"/></svg>
+        </span>
+        <span class="ar-menu-text">
+          <span class="ar-menu-judul">Galeri Kegiatan</span>
+          <span class="ar-menu-sub">Momen seru ananda di kelas</span>
+        </span>
+        <svg class="ar-menu-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
+      </a>
+      <a class="ar-menu-item" href="#/aturan">
+        <span class="ar-menu-ico" style="background:#E7ECFB;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#5B7FE0" stroke-width="2" stroke-linecap="round"><path d="M12 3a6 6 0 0 0-4 10.5V17h8v-3.5A6 6 0 0 0 12 3z"/><path d="M9 20h6"/></svg>
+        </span>
+        <span class="ar-menu-text">
+          <span class="ar-menu-judul">Info Kelas</span>
+          <span class="ar-menu-sub">Aturan &amp; tata tertib kelas VI</span>
+        </span>
+        <svg class="ar-menu-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
+      </a>
+      <a class="ar-menu-item" href="#/panduan">
+        <span class="ar-menu-ico" style="background:var(--primary-soft);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1A8FE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19a2 2 0 0 1 2-2h13"/></svg>
+        </span>
+        <span class="ar-menu-text">
+          <span class="ar-menu-judul">Buku Saku Mitra Orang Tua</span>
+          <span class="ar-menu-sub">Panduan mendampingi ananda di rumah</span>
+        </span>
+        <svg class="ar-menu-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
+      </a>
+      <a class="ar-menu-item" href="https://pengaduan.arrahmahsulawesi.org/" target="_blank" rel="noopener noreferrer">
+        <span class="ar-menu-ico" style="background:var(--accent-soft);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#E08E12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 1 1-3.2-6.4L21 5l-.8 3.2c.5 1.1.8 2.4.8 3.8z"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01"/></svg>
+        </span>
+        <span class="ar-menu-text">
+          <span class="ar-menu-judul">Portal Pengaduan</span>
+          <span class="ar-menu-sub">Sampaikan aspirasi &amp; masukan Bapak/Ibu</span>
+        </span>
+        <svg class="ar-menu-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </section>
 
-function renderWali(list){
-  const el = document.getElementById('waliScroll');
-  if (!list.length){ el.innerHTML = `<div class="empty-note">Pesan wali kelas belum tersedia.</div>`; return; }
-  el.innerHTML = list.map((w, i) => `
-    <div class="wali-card" onclick="bukaModal(${i})">
-      <div class="wali-top">
-        ${w.Foto ? `<img class="wali-photo" src="${w.Foto}" alt="">` : `<div class="wali-photo"></div>`}
-        <div>
-          <div class="wali-name">${escapeHtml(w.NamaWaliKelas || '')}</div>
-          <span class="wali-rombel">${escapeHtml(w.Rombel || '')}</span>
+  <!-- ===== KONTAK PERSON ===== -->
+  <section>
+    <div class="ar-sec-head">
+      <h2>Kontak Person</h2>
+      <small style="font-size:11px;color:var(--ink-muted);font-weight:600;">SDIT Ar-Rahmah</small>
+    </div>
+    <div class="ar-kp-list">
+      <div class="ar-kp-card">
+        <img class="ar-kp-avatar" src="images/kp-noer.webp" alt="Noer Chalish" style="object-fit:cover;" onerror="this.outerHTML='<div class=\'ar-kp-avatar\'>NC</div>';">
+        <div class="ar-kp-info">
+          <div class="ar-kp-nama">Noer Chalish, S.E.</div>
+          <div class="ar-kp-jabatan">Bendahara Kelas Atas (IV, V dan VI)</div>
+          <a class="ar-kp-wa" href="https://wa.me/6288705873291" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            0887-0587-3291
+          </a>
         </div>
       </div>
-      <div class="wali-msg">${escapeHtml(w.PesanSingkat || '')}</div>
-    </div>
-  `).join('');
-}
-
-function bukaModal(i){
-  const w = WALI_DATA[i];
-  document.getElementById('modalPhoto').src = w.Foto || '';
-  document.getElementById('modalName').textContent = w.NamaWaliKelas || '';
-  document.getElementById('modalRombel').textContent = w.Rombel || '';
-  document.getElementById('modalMsg').textContent = w.PesanSingkat || '';
-  document.getElementById('modalDate').textContent = w.TanggalUpdate ? `Diperbarui ${formatTanggal(w.TanggalUpdate)}` : '';
-  document.getElementById('modal').classList.add('show');
-}
-document.getElementById('modalClose').addEventListener('click', () => document.getElementById('modal').classList.remove('show'));
-document.getElementById('modal').addEventListener('click', (e) => { if (e.target.id === 'modal') e.currentTarget.classList.remove('show'); });
-
-function renderInfo(list){
-  const el = document.getElementById('infoList');
-  if (!list.length){ el.innerHTML = `<div class="empty-note">Belum ada info kelas terbaru.</div>`; return; }
-  el.innerHTML = list.map(p => `
-    <div class="info-item ${String(p.Prioritas).toLowerCase() === 'tinggi' ? 'tinggi' : ''}">
-      <div class="info-dot"></div>
-      <div style="flex:1;">
-        <div class="info-top">
-          <span class="info-judul">${escapeHtml(p.Judul || '')}</span>
-          <span class="info-meta">
-            ${p.Rombel ? `<span class="info-rombel">${escapeHtml(p.Rombel)}</span>` : ''}
-            <span class="info-tanggal">${formatTanggal(p.Tanggal)}</span>
-          </span>
+      <div class="ar-kp-card">
+        <img class="ar-kp-avatar" src="images/kp-masrudi.webp" alt="Ust. Masrudi" style="object-fit:cover;" onerror="this.outerHTML='<div class=\'ar-kp-avatar\'>UM</div>';">
+        <div class="ar-kp-info">
+          <div class="ar-kp-nama">Ust. Masrudi</div>
+          <div class="ar-kp-jabatan">Koordinator Mobil Jemputan</div>
+          <a class="ar-kp-wa" href="https://wa.me/6281242444397" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            0812-4244-4397
+          </a>
         </div>
-        <p class="info-isi">${escapeHtml(p.Isi || '')}</p>
+      </div>
+      <div class="ar-kp-card">
+        <img class="ar-kp-avatar" src="images/kp-rachmat.webp" alt="Rachmat Arsyad" style="object-fit:cover;" onerror="this.outerHTML='<div class=\'ar-kp-avatar\'>RA</div>';">
+        <div class="ar-kp-info">
+          <div class="ar-kp-nama">Rachmat Arsyad, S.IP.</div>
+          <div class="ar-kp-jabatan">Administrasi dan Seragam</div>
+          <a class="ar-kp-wa" href="https://wa.me/628114418911" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            0811-4418-911
+          </a>
+        </div>
       </div>
     </div>
-  `).join('');
-}
+  </section>
 
-function renderBadge(galeri){
-  if (!galeri.length) return;
-  const badge = document.getElementById('galeriBadge');
-  badge.textContent = `${galeri.length} baru`;
-  badge.style.display = 'inline-block';
-}
+  <!-- ===== NOMOR REKENING ===== -->
+  <section>
+    <div class="ar-sec-head">
+      <h2>Nomor Rekening</h2>
+      <small style="font-size:11px;color:var(--ink-muted);font-weight:600;">An. Paud Sdit Ar Rahmah</small>
+    </div>
+    <div class="ar-rek-list">
+      <div class="ar-rek-card">
+        <div class="ar-rek-logo bsi">BSI<br>Bank Syariah Indonesia</div>
+        <div class="ar-rek-info">
+          <div class="ar-rek-nomor">777 8788 777</div>
+          <div class="ar-rek-an">An. Paud Sdit Ar Rahmah</div>
+          <button class="ar-rek-copy" onclick="copyRek('7778788777')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Salin Nomor
+          </button>
+        </div>
+      </div>
+      <div class="ar-rek-card">
+        <div class="ar-rek-logo mandiri">Bank<br>Mandiri</div>
+        <div class="ar-rek-info">
+          <div class="ar-rek-nomor">1520 0343 81216</div>
+          <div class="ar-rek-an">An. Paud Sdit Ar Rahmah</div>
+          <button class="ar-rek-copy" onclick="copyRek('1520034381216')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Salin Nomor
+          </button>
+        </div>
+      </div>
+      <div class="ar-rek-card">
+        <div class="ar-rek-logo maybank">Maybank<br>Syariah</div>
+        <div class="ar-rek-info">
+          <div class="ar-rek-nomor">2738 000 268</div>
+          <div class="ar-rek-an">An. Paud Sdit Ar Rahmah</div>
+          <button class="ar-rek-copy" onclick="copyRek('2738000268')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Salin Nomor
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
 
-function formatTanggal(str){
-  if (!str) return '';
-  const d = new Date(str);
-  if (isNaN(d)) return str;
-  return d.toLocaleDateString('id-ID', { day:'numeric', month:'short', year:'numeric' });
-}
-function escapeHtml(str){
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
-}
+  <!-- ===== FOOTER ===== -->
+  <div class="ar-footer">
+    <div class="ar-footer-divider"></div>
+    <div style="margin-bottom:8px;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:middle;margin-right:4px;"><path d="M21 12a8 8 0 1 1-3.2-6.4L21 5l-.8 3.2c.5 1.1.8 2.4.8 3.8z"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01"/></svg>
+      <a href="https://wa.me/628114418911" target="_blank" rel="noopener noreferrer">0811-4418-911</a>
+    </div>
+    <div>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:middle;margin-right:4px;"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      <a href="https://facebook.com/sditarrahmah" target="_blank" rel="noopener noreferrer">@sditarrahmah</a>
+      &nbsp;·&nbsp;
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:middle;margin-right:4px;"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
+      <a href="https://instagram.com/sditarrahmah" target="_blank" rel="noopener noreferrer">@sditarrahmah</a>
+      &nbsp;·&nbsp;
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:middle;margin-right:4px;"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+      <a href="https://tiktok.com/@sditarrahmah" target="_blank" rel="noopener noreferrer">@sditarrahmah</a>
+    </div>
+    <div style="margin-top:10px;font-size:11px;color:var(--ink-muted);">
+      Kompleks Masjid Al Ikhlas Perdos UNHAS<br>
+      Tamalanrea, Kel. Tamalanrea Jaya, Kec. Tamalanrea, Kota Makassar, Prov. Sulawesi Selatan.
+    </div>
+    <div style="margin-top:12px;font-family:'Fraunces',serif;font-style:italic;color:var(--primary-deep);font-size:13px;">
+      Jazakumullahu Khairan atas Kerjasama dan Kepercayaan Ayah/Bunda
+    </div>
+  </div>
 
-muatBeranda();
+  <!-- ===== BOTTOM NAVIGATION ===== -->
+  <nav class="ar-bnav">
+    <a class="ar-bnav-item active" href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Beranda
+    </a>
+    <a class="ar-bnav-item" href="#/info">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Info
+    </a>
+    <a class="ar-bnav-item" href="#/kontak">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      Kontak
+    </a>
+    <a class="ar-bnav-item" href="#/profil">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Profil
+    </a>
+  </nav>
+
+  <!-- ===== MODAL WALI KELAS ===== -->
+  <div class="ar-modal" id="modal" role="dialog" aria-modal="true">
+    <div class="ar-modal-overlay" onclick="tutupModal()"></div>
+    <div class="ar-modal-card">
+      <button class="ar-modal-close" onclick="tutupModal()" aria-label="Tutup">×</button>
+      <img class="ar-modal-foto" id="modalPhoto" alt="Foto wali kelas">
+      <div class="ar-modal-nama" id="modalName"></div>
+      <span class="ar-modal-rombel" id="modalRombel"></span>
+      <div class="ar-modal-msg" id="modalMsg"></div>
+      <div class="ar-modal-date" id="modalDate"></div>
+    </div>
+  </div>
+
+  <!-- ===== TOAST ===== -->
+  <div class="ar-toast" id="arToast">Nomor rekening disalin!</div>
+
+<script>
+  var API_URL = 'https://script.google.com/macros/s/AKfycbzxpd7mmunr0ZJTB4lU_wF3eykejJTGfeAK4Q0mom2S7B7cLGPnR3q1GgLEK6SfxWLY/exec';
+  var WALI_DATA = [];
+  var INFO_DATA = [];
+
+  function escapeHtml(str){
+    if(str === null || str === undefined) return '';
+    return String(str)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;')
+      .replace(/'/g,'&#39;');
+  }
+
+  function formatTanggal(str){
+    if(!str) return '';
+    var d = new Date(str);
+    if(isNaN(d.getTime())) return escapeHtml(String(str));
+    var bulan = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+    return d.getDate() + ' ' + bulan[d.getMonth()] + ' ' + d.getFullYear();
+  }
+
+  function renderWali(){
+    var el = document.getElementById('waliScroll');
+    if(!el) return;
+    if(!WALI_DATA.length){
+      el.innerHTML = '<div class="ar-state">Belum ada pesan dari wali kelas saat ini. 🤲</div>';
+      return;
+    }
+    var html = '';
+    for(var i = 0; i < WALI_DATA.length; i++){
+      var w = WALI_DATA[i];
+      var nama = escapeHtml(w.NamaWaliKelas || 'Wali Kelas');
+      var rombel = escapeHtml(w.Rombel || '');
+      var pesan = escapeHtml(w.PesanSingkat || '');
+      var foto = String(w.Foto || '').trim();
+      var fotoHtml = foto
+        ? '<img class="ar-hcard-foto" src="' + escapeHtml(foto) + '" alt="Foto ' + nama + '" onerror="this.outerHTML=\'<span class=&quot;ar-hcard-foto-fallback&quot;>' + nama.charAt(0) + '</span>\';">'
+        : '<span class="ar-hcard-foto-fallback">' + nama.charAt(0) + '</span>';
+      html += '<div class="ar-hcard" onclick="bukaModal(' + i + ')">'
+            +   '<div class="ar-hcard-top">'
+            +     fotoHtml
+            +     '<div><div class="ar-hcard-nama">' + nama + '</div>'
+            +     (rombel ? '<span class="ar-hcard-rombel">' + rombel + '</span>' : '') + '</div>'
+            +   '</div>'
+            +   '<div class="ar-hcard-pesan">&ldquo;' + pesan + '&rdquo;</div>'
+            + '</div>';
+    }
+    el.innerHTML = html;
+  }
+
+  function renderInfo(){
+    var el = document.getElementById('infoList');
+    if(!el) return;
+    if(!INFO_DATA.length){
+      el.innerHTML = '<div class="ar-state">Belum ada info kelas untuk saat ini. 😊</div>';
+      return;
+    }
+    var html = '';
+    for(var i = 0; i < INFO_DATA.length; i++){
+      var it = INFO_DATA[i];
+      var tinggi = String(it.Prioritas || '').toLowerCase() === 'tinggi';
+      html += '<div class="ar-vcard' + (tinggi ? ' prioritas' : '') + '">'
+            +   '<div class="ar-vcard-head">'
+            +     '<span class="ar-vcard-judul">' + escapeHtml(it.Judul || 'Info Kelas') + '</span>'
+            +     (tinggi ? '<span class="ar-vcard-badge">Penting</span>' : '')
+            +   '</div>'
+            +   '<div class="ar-vcard-isi">' + escapeHtml(it.Isi || '') + '</div>'
+            +   '<div class="ar-vcard-meta">'
+            +     (it.Rombel ? escapeHtml(it.Rombel) + ' · ' : '')
+            +     formatTanggal(it.Tanggal)
+            +   '</div>'
+            + '</div>';
+    }
+    el.innerHTML = html;
+  }
+
+  function renderBadge(jumlah){
+    var el = document.getElementById('galeriBadge');
+    if(!el) return;
+    if(jumlah && jumlah > 0){
+      el.textContent = jumlah + ' baru';
+      el.style.display = 'inline-block';
+    } else {
+      el.style.display = 'none';
+    }
+  }
+
+  function bukaModal(i){
+    var w = WALI_DATA[i];
+    if(!w) return;
+    var nama = escapeHtml(w.NamaWaliKelas || 'Wali Kelas');
+    var foto = String(w.Foto || '').trim();
+    var img = document.getElementById('modalPhoto');
+    if(foto){
+      img.src = foto;
+      img.style.display = 'block';
+      img.onerror = function(){ this.style.display = 'none'; };
+    } else {
+      img.style.display = 'none';
+    }
+    document.getElementById('modalName').innerHTML = nama;
+    document.getElementById('modalRombel').innerHTML = escapeHtml(w.Rombel || '');
+    document.getElementById('modalMsg').innerHTML = escapeHtml(w.PesanSingkat || '');
+    document.getElementById('modalDate').innerHTML = 'Diperbarui ' + (formatTanggal(w.TanggalUpdate) || '—');
+    document.getElementById('modal').classList.add('show');
+  }
+
+  function tutupModal(){
+    document.getElementById('modal').classList.remove('show');
+  }
+
+  function copyRek(nomor){
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(nomor).then(showToast).catch(function(){
+        fallbackCopy(nomor);
+      });
+    } else {
+      fallbackCopy(nomor);
+    }
+  }
+
+  function fallbackCopy(text){
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try{ document.execCommand('copy'); showToast(); }catch(e){}
+    document.body.removeChild(ta);
+  }
+
+  function showToast(){
+    var t = document.getElementById('arToast');
+    if(!t) return;
+    t.classList.add('show');
+    setTimeout(function(){ t.classList.remove('show'); }, 2000);
+  }
+
+  function muatBeranda(){
+    var waliEl = document.getElementById('waliScroll');
+    var infoEl = document.getElementById('infoList');
+    if(waliEl) waliEl.innerHTML = '<div class="ar-state" style="flex:1;"><div class="ar-spinner"></div>Memuat pesan wali kelas...</div>';
+    if(infoEl) infoEl.innerHTML = '<div class="ar-state"><div class="ar-spinner"></div>Memuat info kelas...</div>';
+
+    fetch(API_URL)
+      .then(function(res){
+        if(!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function(data){
+        WALI_DATA = (data && data.waliKelas) || [];
+        INFO_DATA = (data && data.infoKelas) || [];
+        var galeri = (data && data.galeriRingkas) || [];
+        renderWali();
+        renderInfo();
+        renderBadge(galeri.length);
+      })
+      .catch(function(){
+        if(waliEl) waliEl.innerHTML = '<div class="ar-state ar-state-error" style="flex:1;">Maaf, pesan wali kelas belum bisa dimuat. Silakan coba lagi nanti. 🙏</div>';
+        if(infoEl) infoEl.innerHTML = '<div class="ar-state ar-state-error">Maaf, info kelas belum bisa dimuat. Silakan coba lagi nanti. 🙏</div>';
+      });
+  }
+
+  muatBeranda();
 </script>
+</body>
+</html>
