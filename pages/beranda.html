@@ -1,10 +1,20 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal Kelas VI - SIT Ar-Rahmah Makassar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
+  body{margin:0;background:#F0F7FF;}
   .ar-page{
     --primary:#4DB8FF; --primary-soft:#E8F6FF; --primary-deep:#1A8FE0;
     --accent:#FFB347; --accent-soft:#FFF3E0; --accent-deep:#E08E12;
     --bg:#F0F7FF; --card:#FFFFFF; --ink:#1A1A2E; --ink-soft:#8B8FA3; --ink-muted:#C5C8D4;
     --shadow:0 4px 20px rgba(77,184,255,.12); --shadow-lg:0 8px 32px rgba(77,184,255,.18);
     font-family:'Plus Jakarta Sans',sans-serif; color:var(--ink); background:var(--bg); padding-bottom:90px;
+    max-width:480px;margin:0 auto;
   }
   .ar-page *,.ar-page *::before,.ar-page *::after{box-sizing:border-box;margin:0;padding:0}
   .ar-page a{text-decoration:none;color:inherit}
@@ -17,6 +27,18 @@
   .ar-search{width:100%;height:44px;border-radius:14px;border:none;background:var(--bg);padding:0 44px 0 16px;font-size:13px;color:var(--ink);outline:none;font-family:'Plus Jakarta Sans',sans-serif}
   .ar-search::placeholder{color:var(--ink-muted)}
   .ar-search-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--ink-muted)}
+  .ar-search-results{display:none;position:absolute;left:0;right:0;top:calc(100% + 8px);background:var(--card);border-radius:16px;box-shadow:var(--shadow-lg);max-height:340px;overflow-y:auto;z-index:150;padding:6px}
+  .ar-search-results.show{display:block}
+  .ar-sr-group-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);padding:8px 10px 4px}
+  .ar-sr-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:12px;cursor:pointer;transition:background .1s}
+  .ar-sr-item:active,.ar-sr-item:hover{background:var(--bg)}
+  .ar-sr-ico{width:32px;height:32px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--primary-soft);color:var(--primary-deep);font-size:14px;font-weight:800}
+  .ar-sr-text{flex:1;min-width:0}
+  .ar-sr-title{font-size:13px;font-weight:700;color:var(--ink)}
+  .ar-sr-sub{font-size:11.5px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ar-sr-empty{padding:20px 10px;text-align:center;font-size:12.5px;color:var(--ink-soft)}
+  .ar-vcard-highlight{animation:ar-highlight-pulse 1.6s ease}
+  @keyframes ar-highlight-pulse{0%{box-shadow:0 0 0 3px var(--primary)}100%{box-shadow:var(--shadow)}}
   .ar-hero{margin:16px 20px 0;border-radius:24px;background:var(--card);padding:24px 20px;color:var(--ink);position:relative;overflow:hidden;box-shadow:var(--shadow);border:1px solid rgba(26,143,224,.10)}
   .ar-hero::before{content:'';position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;background:var(--primary-soft)}
   .ar-hero::after{content:'';position:absolute;left:-20px;bottom:-40px;width:100px;height:100px;border-radius:50%;background:var(--accent-soft)}
@@ -32,17 +54,17 @@
   .ar-pills{display:flex;gap:10px;overflow-x:auto;padding:4px 20px 8px;scrollbar-width:none}
   .ar-pills::-webkit-scrollbar{display:none}
   .ar-pill{flex:0 0 auto;display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:999px;font-size:12px;font-weight:700;background:var(--card);color:var(--ink-soft);box-shadow:0 2px 8px rgba(0,0,0,.05);transition:all .15s ease;cursor:pointer;border:none;font-family:'Plus Jakarta Sans',sans-serif}
-  .ar-pill.active{background:var(--primary);color:var(--white, #fff)}
+  .ar-pill.active{background:var(--primary);color:#fff}
   .ar-pill:active{transform:scale(.96)}
   .ar-pill-ico{width:18px;height:18px;border-radius:6px;display:flex;align-items:center;justify-content:center}
-  .ar-banner{display:block;margin:16px 20px 0;border-radius:20px;background:linear-gradient(120deg,var(--accent),var(--accent-deep));padding:20px;color:var(--white, #fff);position:relative;overflow:hidden;box-shadow:0 6px 20px rgba(255,179,71,.25)}
+  .ar-banner{display:block;margin:16px 20px 0;border-radius:20px;background:linear-gradient(120deg,var(--accent),var(--accent-deep));padding:20px;color:#fff;position:relative;overflow:hidden;box-shadow:0 6px 20px rgba(255,179,71,.25)}
   .ar-banner::before{content:'';position:absolute;right:-20px;bottom:-30px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,.1)}
   .ar-banner-inner{position:relative;z-index:1;display:flex;align-items:center;gap:14px}
   .ar-banner-img{width:80px;height:80px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 4px 8px rgba(0,0,0,.1))}
   .ar-banner-text{flex:1}
   .ar-banner h3{font-family:'Fraunces',serif;font-size:16px;font-weight:700;margin-bottom:4px}
   .ar-banner p{font-size:11.5px;opacity:.92;line-height:1.5;margin-bottom:10px}
-  .ar-banner-btn{display:inline-block;background:var(--white, #fff);color:var(--accent-deep);font-weight:800;font-size:12px;padding:7px 16px;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+  .ar-banner-btn{display:inline-block;background:#fff;color:var(--accent-deep);font-weight:800;font-size:12px;padding:7px 16px;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
   .ar-hscroll{display:flex;gap:14px;overflow-x:auto;padding:4px 20px 12px;scroll-snap-type:x mandatory;scrollbar-width:none}
   .ar-hscroll::-webkit-scrollbar{display:none}
   .ar-hcard{flex:0 0 260px;scroll-snap-align:start;background:var(--card);border-radius:20px;padding:18px;box-shadow:var(--shadow);cursor:pointer;transition:transform .15s ease;position:relative;overflow:hidden}
@@ -59,8 +81,11 @@
   .ar-vcard.prioritas::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,var(--accent),var(--accent-deep))}
   .ar-vcard-head{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
   .ar-vcard-judul{font-size:14px;font-weight:700;color:var(--ink);flex:1;min-width:120px}
-  .ar-vcard-badge{font-size:9px;font-weight:800;color:var(--white, #fff);background:linear-gradient(135deg,var(--accent),var(--accent-deep));padding:3px 10px;border-radius:999px;text-transform:uppercase;letter-spacing:.04em}
-  .ar-vcard-isi{font-size:12.5px;color:var(--ink-soft);line-height:1.6;margin-bottom:8px}
+  .ar-vcard-badge{font-size:9px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent-deep));padding:3px 10px;border-radius:999px;text-transform:uppercase;letter-spacing:.04em}
+  .ar-vcard-isi{font-size:12.5px;color:var(--ink-soft);line-height:1.6;margin-bottom:8px;word-break:break-word}
+  .ar-vcard-isi a{color:var(--primary-deep);font-weight:700;text-decoration:underline;word-break:break-all}
+  .ar-vcard-img-link{display:block;margin-top:8px}
+  .ar-vcard-img{width:100%;max-width:320px;border-radius:14px;display:block;box-shadow:var(--shadow)}
   .ar-vcard-meta{font-size:11px;color:var(--ink-muted);font-weight:600}
   .ar-menu{padding:0 20px;display:flex;flex-direction:column;gap:12px}
   .ar-menu-item{display:flex;align-items:center;gap:14px;background:var(--card);border-radius:18px;padding:14px 16px;box-shadow:var(--shadow);transition:transform .15s ease;position:relative}
@@ -71,7 +96,7 @@
   .ar-menu-judul{font-size:14px;font-weight:700;color:var(--ink)}
   .ar-menu-sub{font-size:12px;color:var(--ink-soft);margin-top:2px}
   .ar-menu-arrow{color:var(--ink-muted);flex-shrink:0}
-  .ar-menu-badge{position:absolute;top:-5px;right:14px;background:var(--accent);color:var(--white, #fff);font-size:10px;font-weight:800;padding:2px 10px;border-radius:999px;box-shadow:0 2px 8px rgba(255,179,71,.4)}
+  .ar-menu-badge{position:absolute;top:-5px;right:14px;background:var(--accent);color:#fff;font-size:10px;font-weight:800;padding:2px 10px;border-radius:999px;box-shadow:0 2px 8px rgba(255,179,71,.4)}
   .ar-kp-list{padding:0 20px;display:flex;flex-direction:column;gap:12px}
   .ar-kp-card{display:flex;align-items:center;gap:14px;background:var(--card);border-radius:20px;padding:14px 16px;box-shadow:var(--shadow);transition:transform .15s ease}
   .ar-kp-card:active{transform:scale(.98)}
@@ -92,7 +117,7 @@
   .ar-rek-info{flex:1;min-width:0}
   .ar-rek-nomor{font-family:'Fraunces',serif;font-size:17px;font-weight:700;color:var(--ink);letter-spacing:1px}
   .ar-rek-an{font-size:12px;color:var(--ink-soft);margin-top:2px}
-  .ar-rek-copy{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;color:var(--white, #fff);background:var(--accent);padding:6px 14px;border-radius:999px;margin-top:8px;cursor:pointer;border:none;transition:background .15s}
+  .ar-rek-copy{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;color:#fff;background:var(--accent);padding:6px 14px;border-radius:999px;margin-top:8px;cursor:pointer;border:none;transition:background .15s}
   .ar-rek-copy:hover{background:var(--accent-deep)}
   .ar-rek-copy svg{width:12px;height:12px}
   .ar-footer{margin-top:28px;padding:24px 20px;text-align:center;font-size:12px;color:var(--ink-soft);background:var(--card);border-radius:24px 24px 0 0;box-shadow:0 -4px 20px rgba(0,0,0,.04)}
@@ -109,14 +134,15 @@
   .ar-modal-rombel{display:block;width:fit-content;margin:0 auto 16px;font-size:11px;font-weight:700;color:var(--primary-deep);background:var(--primary-soft);padding:4px 14px;border-radius:999px}
   .ar-modal-msg{font-size:14px;color:var(--ink);line-height:1.7;background:var(--bg);border-radius:16px;padding:16px;margin-bottom:10px;white-space:pre-line}
   .ar-modal-date{font-size:11px;color:var(--ink-muted);text-align:center;font-weight:600}
-  .ar-toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--white, #fff);font-size:12px;font-weight:700;padding:10px 20px;border-radius:999px;box-shadow:0 4px 20px rgba(0,0,0,.2);opacity:0;pointer-events:none;transition:opacity .2s;z-index:400}
+  .ar-toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:12px;font-weight:700;padding:10px 20px;border-radius:999px;box-shadow:0 4px 20px rgba(0,0,0,.2);opacity:0;pointer-events:none;transition:opacity .2s;z-index:400}
   .ar-toast.show{opacity:1}
   .ar-spinner{width:28px;height:28px;margin:0 auto 10px;border:3px solid var(--primary-soft);border-top-color:var(--primary);border-radius:50%;animation:ar-spin .8s linear infinite}
   @keyframes ar-spin{to{transform:rotate(360deg)}}
   .ar-state{padding:24px 20px;text-align:center;font-size:13px;color:var(--ink-soft)}
   .ar-state-error{color:var(--accent-deep);font-weight:600}
 </style>
-
+</head>
+<body>
 <div class="ar-page">
 <!-- ===== HEADER ===== -->
   <header class="ar-header">
@@ -130,6 +156,7 @@
     <div class="ar-search-wrap">
       <input class="ar-search" type="text" placeholder="Cari info, jadwal, atau kontak..." id="searchInput">
       <svg class="ar-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <div class="ar-search-results" id="searchResults"></div>
     </div>
   </header>
 
@@ -412,6 +439,21 @@
   var WALI_DATA = [];
   var INFO_DATA = [];
 
+  // Data statis untuk fitur pencarian (Kontak Person & Menu Navigasi)
+  var KONTAK_DATA = [
+    { nama: 'Noer Chalish, S.E.', jabatan: 'Bendahara Kelas Atas (IV, V dan VI)', wa: 'https://wa.me/6288705873291' },
+    { nama: 'Ust. Masrudi', jabatan: 'Koordinator Mobil Jemputan', wa: 'https://wa.me/6281242444397' },
+    { nama: 'Rachmat Arsyad, S.IP.', jabatan: 'Administrasi dan Seragam', wa: 'https://wa.me/628114418911' }
+  ];
+  var MENU_DATA = [
+    { judul: 'Kalender Akademik', sub: 'Agenda & jadwal kegiatan semester', href: '#/kalender' },
+    { judul: 'Budaya & Pembiasaan', sub: 'Nilai & rutinitas harian ananda', href: '#/budaya' },
+    { judul: 'Galeri Kegiatan', sub: 'Momen seru ananda di kelas', href: '#/galeri' },
+    { judul: 'Info Kelas (Aturan)', sub: 'Aturan & tata tertib kelas VI', href: '#/aturan' },
+    { judul: 'Buku Saku Mitra Orang Tua', sub: 'Panduan mendampingi ananda di rumah', href: '#/panduan' },
+    { judul: 'Portal Pengaduan', sub: 'Sampaikan aspirasi & masukan Bapak/Ibu', href: 'https://pengaduan.arrahmahsulawesi.org/', external: true }
+  ];
+
   function escapeHtml(str){
     if(str === null || str === undefined) return '';
     return String(str)
@@ -420,6 +462,31 @@
       .replace(/>/g,'&gt;')
       .replace(/"/g,'&quot;')
       .replace(/'/g,'&#39;');
+  }
+
+  // Ubah URL di dalam teks menjadi link aktif.
+  // Kalau URL-nya link gambar (ekstensi gambar, Google Drive, atau Google Photos),
+  // otomatis tampilkan sebagai thumbnail gambar di bawah teks.
+  function linkifyText(str){
+    var text = escapeHtml(str);
+    var urlRegex = /(https?:\/\/[^\s<]+)/g;
+    return text.replace(urlRegex, function(url){
+      var clean = url.replace(/[.,;:!?)\]]+$/, '');
+      var trailing = url.slice(clean.length);
+      var driveMatch = clean.match(/drive\.google\.com\/file\/d\/([^/]+)/);
+      var imgSrc = driveMatch ? 'https://drive.google.com/uc?export=view&id=' + driveMatch[1] : clean;
+      var isImage = /\.(jpe?g|png|gif|webp|bmp|svg)(\?.*)?$/i.test(clean)
+                  || driveMatch
+                  || /lh3\.googleusercontent\.com/i.test(clean)
+                  || /photos\.(google|app\.goo)\.com/i.test(clean);
+      if(isImage){
+        return '<a class="ar-vcard-img-link" href="' + clean + '" target="_blank" rel="noopener noreferrer">'
+             + '<img class="ar-vcard-img" src="' + imgSrc + '" alt="Lampiran gambar" '
+             + 'onerror="this.parentElement.outerHTML=\'<a href=&quot;' + clean + '&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;>' + clean + '</a>\';">'
+             + '</a>' + trailing;
+      }
+      return '<a href="' + clean + '" target="_blank" rel="noopener noreferrer">' + clean + '</a>' + trailing;
+    });
   }
 
   function formatTanggal(str){
@@ -470,12 +537,12 @@
     for(var i = 0; i < INFO_DATA.length; i++){
       var it = INFO_DATA[i];
       var tinggi = String(it.Prioritas || '').toLowerCase() === 'tinggi';
-      html += '<div class="ar-vcard' + (tinggi ? ' prioritas' : '') + '">'
+      html += '<div class="ar-vcard' + (tinggi ? ' prioritas' : '') + '" id="infoCard-' + i + '">'
             +   '<div class="ar-vcard-head">'
             +     '<span class="ar-vcard-judul">' + escapeHtml(it.Judul || 'Info Kelas') + '</span>'
             +     (tinggi ? '<span class="ar-vcard-badge">Penting</span>' : '')
             +   '</div>'
-            +   '<div class="ar-vcard-isi">' + escapeHtml(it.Isi || '') + '</div>'
+            +   '<div class="ar-vcard-isi">' + linkifyText(it.Isi || '') + '</div>'
             +   '<div class="ar-vcard-meta">'
             +     (it.Rombel ? escapeHtml(it.Rombel) + ' · ' : '')
             +     formatTanggal(it.Tanggal)
@@ -548,6 +615,134 @@
     setTimeout(function(){ t.classList.remove('show'); }, 2000);
   }
 
+  function cocok(teks, kw){
+    return String(teks || '').toLowerCase().indexOf(kw) !== -1;
+  }
+
+  function scrollDanHighlight(id){
+    var el = document.getElementById(id);
+    if(!el) return;
+    el.scrollIntoView({ behavior:'smooth', block:'center' });
+    el.classList.remove('ar-vcard-highlight');
+    void el.offsetWidth; // reset animasi kalau diklik berulang
+    el.classList.add('ar-vcard-highlight');
+  }
+
+  function renderSearchResults(kw){
+    var box = document.getElementById('searchResults');
+    if(!box) return;
+    if(!kw){
+      box.classList.remove('show');
+      box.innerHTML = '';
+      return;
+    }
+
+    var groups = [];
+
+    var waliHits = [];
+    for(var i = 0; i < WALI_DATA.length; i++){
+      var w = WALI_DATA[i];
+      if(cocok(w.NamaWaliKelas, kw) || cocok(w.PesanSingkat, kw) || cocok(w.Rombel, kw)){
+        waliHits.push({ idx: i, nama: w.NamaWaliKelas, sub: w.PesanSingkat });
+      }
+    }
+    if(waliHits.length){
+      groups.push({ label: 'Pesan Wali Kelas', items: waliHits.map(function(h){
+        return { title: h.nama || 'Wali Kelas', sub: h.sub || '', action: function(){ bukaModal(h.idx); } };
+      })});
+    }
+
+    var infoHits = [];
+    for(var j = 0; j < INFO_DATA.length; j++){
+      var it = INFO_DATA[j];
+      if(cocok(it.Judul, kw) || cocok(it.Isi, kw) || cocok(it.Rombel, kw)){
+        infoHits.push({ idx: j, judul: it.Judul, isi: it.Isi });
+      }
+    }
+    if(infoHits.length){
+      groups.push({ label: 'Info Kelas', items: infoHits.map(function(h){
+        return { title: h.judul || 'Info Kelas', sub: h.isi || '', action: function(){ scrollDanHighlight('infoCard-' + h.idx); } };
+      })});
+    }
+
+    var kontakHits = KONTAK_DATA.filter(function(k){
+      return cocok(k.nama, kw) || cocok(k.jabatan, kw);
+    });
+    if(kontakHits.length){
+      groups.push({ label: 'Kontak Person', items: kontakHits.map(function(k){
+        return { title: k.nama, sub: k.jabatan, action: function(){ window.open(k.wa, '_blank', 'noopener,noreferrer'); } };
+      })});
+    }
+
+    var menuHits = MENU_DATA.filter(function(m){
+      return cocok(m.judul, kw) || cocok(m.sub, kw);
+    });
+    if(menuHits.length){
+      groups.push({ label: 'Menu', items: menuHits.map(function(m){
+        return { title: m.judul, sub: m.sub, action: function(){
+          if(m.external){ window.open(m.href, '_blank', 'noopener,noreferrer'); }
+          else { window.location.hash = m.href.replace('#',''); }
+        }};
+      })});
+    }
+
+    if(!groups.length){
+      box.innerHTML = '<div class="ar-sr-empty">Tidak ada hasil untuk "' + escapeHtml(kw) + '" 🔍</div>';
+      box.classList.add('show');
+      return;
+    }
+
+    var html = '';
+    groups.forEach(function(g, gi){
+      html += '<div class="ar-sr-group-label">' + escapeHtml(g.label) + '</div>';
+      g.items.forEach(function(item, ii){
+        var actionId = 'sr-' + gi + '-' + ii;
+        html += '<div class="ar-sr-item" id="' + actionId + '">'
+              +   '<span class="ar-sr-ico">' + escapeHtml(String(item.title).charAt(0)) + '</span>'
+              +   '<div class="ar-sr-text">'
+              +     '<div class="ar-sr-title">' + escapeHtml(item.title) + '</div>'
+              +     (item.sub ? '<div class="ar-sr-sub">' + escapeHtml(item.sub) + '</div>' : '')
+              +   '</div>'
+              + '</div>';
+      });
+    });
+    box.innerHTML = html;
+    box.classList.add('show');
+
+    // Pasang event klik setelah render (supaya closure action tetap terjaga)
+    var flatItems = [];
+    groups.forEach(function(g){ g.items.forEach(function(item){ flatItems.push(item); }); });
+    var nodes = box.querySelectorAll('.ar-sr-item');
+    nodes.forEach(function(node, idx){
+      node.addEventListener('click', function(){
+        flatItems[idx].action();
+        box.classList.remove('show');
+        document.getElementById('searchInput').blur();
+      });
+    });
+  }
+
+  function initSearch(){
+    var input = document.getElementById('searchInput');
+    var box = document.getElementById('searchResults');
+    if(!input) return;
+    var timer = null;
+    input.addEventListener('input', function(){
+      clearTimeout(timer);
+      var kw = input.value.trim().toLowerCase();
+      timer = setTimeout(function(){ renderSearchResults(kw); }, 150);
+    });
+    input.addEventListener('focus', function(){
+      var kw = input.value.trim().toLowerCase();
+      if(kw) renderSearchResults(kw);
+    });
+    document.addEventListener('click', function(e){
+      if(!input.contains(e.target) && !box.contains(e.target)){
+        box.classList.remove('show');
+      }
+    });
+  }
+
   function muatBeranda(){
     var waliEl = document.getElementById('waliScroll');
     var infoEl = document.getElementById('infoList');
@@ -574,5 +769,8 @@
   }
 
   muatBeranda();
+  initSearch();
 </script>
 </div>
+</body>
+</html>
