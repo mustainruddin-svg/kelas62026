@@ -1,6 +1,13 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Info Kelas — SDIT Ar-Rahmah</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --sky:#2E86C1; --sky-deep:#1B4F72; --sky-pale:#EAF4FC;
+    --sky:#4DB8FF; --sky-deep:#1B4F72; --sky-pale:#EAF4FC;
     --gold:#C9972F; --gold-pale:#FFF6E0;
     --indigo:#3B5BA5;
     --white:#FFFFFF; --ink:#1E2A33; --ink-soft:#6B7A84; --line:#E7EEF3;
@@ -12,9 +19,7 @@
   a{text-decoration:none; color:inherit;}
 
   .hero{
-    background:linear-gradient(150deg, #4E70C2, #253D75);
-    background-image:radial-gradient(rgba(255,255,255,0.14) 1.6px, transparent 1.6px), linear-gradient(150deg, #4E70C2, #253D75);
-    background-size:14px 14px, auto;
+    background:linear-gradient(150deg, #4DB8FF, #1B7FC2);
     padding:22px 20px 30px; border-radius:0 0 26px 26px; color:var(--white); position:relative; overflow:hidden;
   }
   .hero-illust{position:absolute; top:-14px; right:-10px; width:96px; opacity:0.9; z-index:1;}
@@ -24,6 +29,143 @@
 
   .wrap{max-width:720px; margin:0 auto; padding:20px 16px 0;}
 
+  /* Menu Card */
+  .menu-card{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:var(--white);
+    border:1.5px solid var(--line);
+    border-radius:16px;
+    padding:16px 18px;
+    margin-bottom:16px;
+    box-shadow:var(--shadow);
+    cursor:pointer;
+    transition:transform .15s, box-shadow .2s;
+  }
+  .menu-card:hover{transform:translateY(-2px); box-shadow:0 14px 30px rgba(27,79,114,0.14);}
+  .menu-icon{
+    width:48px; height:48px; border-radius:14px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:22px; flex:0 0 auto;
+  }
+  .menu-info{flex:1;}
+  .menu-title{font-family:'Fraunces',serif; font-size:15px; font-weight:600; color:var(--sky-deep); margin:0 0 2px;}
+  .menu-desc{font-size:12px; color:var(--ink-soft);}
+  .menu-arrow{font-size:18px; color:var(--sky);}
+
+  /* Section Card */
+  .section-card{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+    margin-bottom:20px;
+  }
+  .section-head{
+    padding:16px 18px;
+    background:linear-gradient(135deg, var(--sky-pale), #fff);
+    border-bottom:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .section-icon{
+    width:36px; height:36px;
+    border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:18px;
+  }
+  .section-title{
+    font-family:'Fraunces',serif;
+    font-size:16px;
+    font-weight:600;
+    color:var(--sky-deep);
+    margin:0;
+  }
+  .section-body{
+    padding:16px 18px;
+  }
+
+  /* Image Grid / List */
+  .img-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .img-item{
+    width:100%;
+    border-radius:12px;
+    overflow:hidden;
+    background:var(--sky-pale);
+    border:1px solid var(--line);
+    position:relative;
+  }
+  .img-item img{
+    width:100%;
+    height:auto;
+    display:block;
+    object-fit:cover;
+  }
+  .img-placeholder{
+    width:100%;
+    aspect-ratio:16/9;
+    background:linear-gradient(135deg, #EAF4FC, #D6E6F2);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color:var(--sky);
+    font-size:13px;
+    gap:6px;
+    padding:20px;
+    text-align:center;
+  }
+  .img-placeholder .ph-icon{
+    font-size:32px;
+    opacity:0.6;
+  }
+  .img-placeholder .ph-name{
+    font-weight:600;
+    font-size:14px;
+    color:var(--sky-deep);
+  }
+  .img-placeholder .ph-hint{
+    font-size:11px;
+    color:var(--ink-soft);
+  }
+
+  /* Download Link */
+  .download-row{
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1px dashed var(--line);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .download-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:var(--sky);
+    color:#fff;
+    padding:10px 16px;
+    border-radius:10px;
+    font-size:13px;
+    font-weight:600;
+    transition:background .2s;
+  }
+  .download-btn:hover{
+    background:var(--sky-deep);
+  }
+  .download-hint{
+    font-size:11px;
+    color:var(--ink-soft);
+  }
+
+  /* Accordion (Aturan) */
   .aturan-group{margin-bottom:10px; border:1px solid var(--line); border-radius:16px; overflow:hidden; background:var(--white); box-shadow:var(--shadow);}
   .aturan-head{
     width:100%; text-align:left; background:var(--white); border:none; padding:15px 16px;
@@ -38,8 +180,9 @@
   .error-box{color:#B23A3A; border-style:solid; border-color:#F3C9C9;}
   .spinner{width:26px; height:26px; border:3px solid var(--sky-pale); border-top-color:var(--sky); border-radius:50%; animation:spin .7s linear infinite; margin:0 auto 12px;}
   @keyframes spin{to{transform:rotate(360deg);}}
-
-  </style>
+</style>
+</head>
+<body>
 
 <div class="hero">
   <svg class="hero-illust" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -55,11 +198,161 @@
 </div>
 
 <div class="wrap">
-  <div id="aturanList"><div class="loading"><div class="spinner"></div>Memuat info…</div></div>
+
+  <!-- MENU JADWAL KELAS -->
+  <a href="jadwal_kelas_vi.html" class="menu-card" style="text-decoration:none;">
+    <div class="menu-icon" style="background:#E3F2FD;">📅</div>
+    <div class="menu-info">
+      <div class="menu-title">Jadwal Kelas VI</div>
+      <div class="menu-desc">Lihat jadwal pelajaran & rekap jam guru</div>
+    </div>
+    <div class="menu-arrow">→</div>
+  </a>
+
+  <!-- ATURAN SEKOLAH (Paling Atas) -->
+  <div class="section-card" style="border:none; box-shadow:none; background:transparent;">
+    <div class="section-head" style="background:transparent; border:none; padding-left:0; padding-right:0;">
+      <div class="section-icon" style="background:var(--white);">📋</div>
+      <h2 class="section-title">Aturan Sekolah</h2>
+    </div>
+    <div id="aturanList" style="padding:0;"><div class="loading"><div class="spinner"></div>Memuat info…</div></div>
+  </div>
+
+  <!-- HAFALAN DOA -->
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-icon" style="background:var(--gold-pale);">🤲</div>
+      <h2 class="section-title">Hafalan Doa</h2>
+    </div>
+    <div class="section-body">
+      <div class="img-list">
+        <div class="img-item">
+          <div class="img-placeholder">
+            <div class="ph-icon">🖼️</div>
+            <div class="ph-name">doa1.webp</div>
+            <div class="ph-hint">Ganti dengan gambar doa sesungguhnya</div>
+          </div>
+        </div>
+        <div class="img-item">
+          <div class="img-placeholder">
+            <div class="ph-icon">🖼️</div>
+            <div class="ph-name">doa2.webp</div>
+            <div class="ph-hint">Ganti dengan gambar doa sesungguhnya</div>
+          </div>
+        </div>
+        <div class="img-item">
+          <div class="img-placeholder">
+            <div class="ph-icon">🖼️</div>
+            <div class="ph-name">doa3.webp</div>
+            <div class="ph-hint">Ganti dengan gambar doa sesungguhnya</div>
+          </div>
+        </div>
+        <div class="img-item">
+          <div class="img-placeholder">
+            <div class="ph-icon">🖼️</div>
+            <div class="ph-name">doa4.webp</div>
+            <div class="ph-hint">Ganti dengan gambar doa sesungguhnya</div>
+          </div>
+        </div>
+      </div>
+      <div class="download-row">
+        <a class="download-btn" href="https://drive.google.com/uc?export=download&id=GANTI_ID_FILE_DOA" target="_blank" rel="noopener">
+          📥 Download PDF Doa
+        </a>
+        <span class="download-hint">Sumber: Google Drive</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- HAFALAN HADIS -->
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-icon" style="background:#E8F5E9;">📖</div>
+      <h2 class="section-title">Hafalan Hadis</h2>
+    </div>
+    <div class="section-body">
+      <div class="img-list">
+        <div class="img-item">
+          <img src="https://files.catbox.moe/y1kk4g.webp">
+            <div class="ph-icon">🖼️</div>
+            <div class="ph-name">hadis1.webp</div>
+            <div class="ph-hint">Ganti dengan gambar hadis sesungguhnya</div>
+          </div>
+        </div>
+        <div class="img-item">
+          <div class="img-placeholder">
+            <div class="ph-icon">🖼️</div>
+            <div class="ph-name">hadis2.webp</div>
+            <div class="ph-hint">Ganti dengan gambar hadis sesungguhnya</div>
+          </div>
+        </div>
+        <div class="img-item">
+          <div class="img-placeholder">
+            <div class="ph-icon">🖼️</div>
+            <div class="ph-name">hadis3.webp</div>
+            <div class="ph-hint">Ganti dengan gambar hadis sesungguhnya</div>
+          </div>
+        </div>
+        <div class="img-item">
+          <div class="img-placeholder">
+            <div class="ph-icon">🖼️</div>
+            <div class="ph-name">hadis4.webp</div>
+            <div class="ph-hint">Ganti dengan gambar hadis sesungguhnya</div>
+          </div>
+        </div>
+      </div>
+      <div class="download-row">
+        <a class="download-btn" href="https://drive.google.com/uc?export=download&id=GANTI_ID_FILE_HADIS" target="_blank" rel="noopener">
+          📥 Download PDF Hadis
+        </a>
+        <span class="download-hint">Sumber: Google Drive</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROSTER PELAJARAN -->
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-icon" style="background:#FFF3E0;">📅</div>
+      <h2 class="section-title">Roster Pelajaran</h2>
+    </div>
+    <div class="section-body">
+      <div class="img-list">
+        <div class="img-item">
+          <div class="img-placeholder">
+            <div class="ph-icon">🖼️</div>
+            <div class="ph-name">roster1.webp</div>
+            <div class="ph-hint">Ganti dengan gambar roster sesungguhnya</div>
+          </div>
+        </div>
+        <div class="img-item">
+          <div class="img-placeholder">
+            <div class="ph-icon">🖼️</div>
+            <div class="ph-name">roster2.webp</div>
+            <div class="ph-hint">Ganti dengan gambar roster sesungguhnya</div>
+          </div>
+        </div>
+        <div class="img-item">
+          <div class="img-placeholder">
+            <div class="ph-icon">🖼️</div>
+            <div class="ph-name">roster3.webp</div>
+            <div class="ph-hint">Ganti dengan gambar roster sesungguhnya</div>
+          </div>
+        </div>
+      </div>
+      <div class="download-row">
+        <a class="download-btn" href="https://drive.google.com/uc?export=download&id=GANTI_ID_FILE_ROSTER" target="_blank" rel="noopener">
+          📥 Download PDF Roster
+        </a>
+        <span class="download-hint">Sumber: Google Drive</span>
+      </div>
+    </div>
+  </div>
+
 </div>
 
-<script data-page-script>
-var API_URL = 'https://script.google.com/macros/s/AKfycbzxpd7mmunr0ZJTB4lU_wF3eykejJTGfeAK4Q0mom2S7B7cLGPnR3q1GgLEK6SfxWLY/exec'; // ganti setelah deploy Apps Script
+<script>
+var API_URL = 'https://script.google.com/macros/s/AKfycbzxpd7mmunr0ZJTB4lU_wF3eykejJTGfeAK4Q0mom2S7B7cLGPnR3q1GgLEK6SfxWLY/exec';
 
 async function muatAturan(){
   try{
@@ -109,3 +402,6 @@ function escapeHtml(str){
 
 muatAturan();
 </script>
+
+</body>
+</html>
